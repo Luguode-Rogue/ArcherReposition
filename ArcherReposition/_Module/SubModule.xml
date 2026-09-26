@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Module xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/SubModule.xsd" >
+  <Id value="$moduleid$" />
+  <Name value="$modulename$" />
+  <Version value="v$version$" />
+  <DefaultModule value="false" />
+  <ModuleCategory value="Singleplayer"/>
+  <ModuleType value="Community" />
+  <Url value="$moduleurl$" />
+  <DependedModules>
+  	<DependedModule Id="Native" />
+  	<DependedModule Id="SandBoxCore" />
+  	<DependedModule Id="Sandbox" />
+  	<DependedModule Id="StoryMode" />
+  	<DependedModule Id="CustomBattle" />
+  </DependedModules>
+  <!-- MCM（Bannerlord.MBOptionScreen）为软依赖：有则启用 MCM 菜单，无则走 ModuleData/ArcherRepositionSettings.xml -->
+  <!-- Community Dependency Metadata -->
+  <!-- https://github.com/BUTR/Bannerlord.BLSE#community-dependency-metadata -->
+  <DependedModuleMetadatas>
+  	<DependedModuleMetadata id="Native" order="LoadBeforeThis" />
+  	<DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" />
+  	<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" />
+  	<DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" />
+  	<DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" />
+  	<!-- 软排序：MCM 已安装时保证其先于本模块加载（DLL 引用表含 MCMv5，加载时必须已就绪）；未安装时忽略 -->
+  	<DependedModuleMetadata id="Bannerlord.MBOptionScreen" order="LoadBeforeThis" />
+  </DependedModuleMetadatas>
+  <!-- Community Dependency Metadata -->
+  <SubModules>
+    <SubModule>
+      <Name value="$modulename$" />
+      <DLLName value="$moduleid$.dll" />
+      <SubModuleClassType value="$moduleid$.SubModule" />
+      <Tags />
+    </SubModule>
+  </SubModules>
+</Module>

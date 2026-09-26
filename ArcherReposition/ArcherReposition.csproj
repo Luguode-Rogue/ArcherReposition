@@ -1,0 +1,81 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version>0.0.1</Version>
+    <TargetFramework>net472</TargetFramework>
+    <Platforms>x64</Platforms>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <BuildForWindows>false</BuildForWindows>
+    <BuildForWindowsStore>false</BuildForWindowsStore>
+    <ModuleId>$(MSBuildProjectName)</ModuleId>
+    <ModuleName>$(MSBuildProjectName)</ModuleName>
+    <ModuleUrl></ModuleUrl>
+    <GameFolder>$(BANNERLORD_GAME_DIR)</GameFolder>
+    <GameFolder Condition="'$(GameFolder)' == ''">E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord</GameFolder>
+    <GameBinariesFolder Condition="Exists('$(GameFolder)\bin\Win64_Shipping_Client\Bannerlord.exe')">Win64_Shipping_Client</GameBinariesFolder>
+    <GameBinariesFolder Condition="Exists('$(GameFolder)\bin\Gaming.Desktop.x64_Shipping_Client\Bannerlord.exe')">Gaming.Desktop.x64_Shipping_Client</GameBinariesFolder>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(TargetFramework) == 'net472'">
+    <BuildForWindows>true</BuildForWindows>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework) == 'net6'">
+    <BuildForWindowsStore>true</BuildForWindowsStore>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="$(GameFolder)\bin\$(GameBinariesFolder)\Newtonsoft.Json.dll">
+      <HintPath>%(Identity)</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="$(GameFolder)\bin\$(GameBinariesFolder)\TaleWorlds.*.dll" Exclude="$(GameFolder)\bin\$(GameBinariesFolder)\TaleWorlds.Native.dll">
+      <HintPath>%(Identity)</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="$(GameFolder)\Modules\Native\bin\$(GameBinariesFolder)\*.dll">
+      <HintPath>%(Identity)</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="$(GameFolder)\Modules\SandBox\bin\$(GameBinariesFolder)\*.dll">
+      <HintPath>%(Identity)</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="$(GameFolder)\Modules\SandBoxCore\bin\$(GameBinariesFolder)\*.dll">
+      <HintPath>%(Identity)</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="$(GameFolder)\Modules\StoryMode\bin\$(GameBinariesFolder)\*.dll">
+      <HintPath>%(Identity)</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="$(GameFolder)\Modules\CustomBattle\bin\$(GameBinariesFolder)\*.dll">
+      <HintPath>%(Identity)</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="$(GameFolder)\Modules\BirthAndDeath\bin\$(GameBinariesFolder)\*.dll">
+      <HintPath>%(Identity)</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <!-- 注意：主 DLL 引用表必须保持零 MCM —— 游戏加载器在 Assembly.Load 阶段解析全部引用，
+         MCMv5 出现在引用表且未加载 MCM 时整个模块加载失败（实测）。
+         MCM 集成在独立的 ArcherRepositionMCM 项目（Adapter DLL），主 DLL 运行时反射加载。 -->
+  </ItemGroup>
+
+  <!-- Adapter 子项目必须从主项目的通配编译中排除（否则其 .cs 与 obj 自动生成文件被重复编入） -->
+  <ItemGroup>
+    <Compile Remove="ArcherRepositionMCM\**" />
+    <None Remove="ArcherRepositionMCM\**" />
+    <EmbeddedResource Remove="ArcherRepositionMCM\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nullable" Version="1.3.1" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+    <PackageReference Include="IsExternalInit" Version="1.0.3" PrivateAssets="all" IncludeAssets ="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+    <PackageReference Include="Bannerlord.BuildResources" Version="1.1.0.124" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+    <!-- 注意：本功能零 Harmony 补丁，不要引入 Lib.Harmony（2.3.3 会进引用表，与游戏环境 2.2.2 冲突导致加载失败） -->
+  </ItemGroup>
+
+</Project>

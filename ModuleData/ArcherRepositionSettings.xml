@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 射手AI「防发呆」重定位 —— 独立测试模块配置
+     - 装有 MCM 时：主菜单 → Mod Options → ArcherReposition 页面修改，改动会自动回写本文件
+     - 未装 MCM 时：直接用文本编辑器修改以下值，重启游戏生效 -->
+<ArcherRepositionSettings>
+	<!-- 总开关：false 时本功能完全休眠（检测与决策全部关闭） -->
+	<EnableSwitchTarget>true</EnableSwitchTarget>
+	<!-- true = 仅玩家队伍（含友方队伍）的射手生效；false = 敌我都生效 -->
+	<OnlyPlayerTeam>true</OnlyPlayerTeam>
+	<!-- true = 仅散阵（Loose）阵型时生效；false = 任意阵型都生效 -->
+	<OnlyLooseFormation>false</OnlyLooseFormation>
+</ArcherRepositionSettings>
